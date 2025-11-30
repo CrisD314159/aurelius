@@ -55,6 +55,7 @@ class LLMService:
         ========================
         """
         response = self.generate_response(prompt, user_model)
+        print(response)
 
         return self.extract_and_save_context(response)
 
