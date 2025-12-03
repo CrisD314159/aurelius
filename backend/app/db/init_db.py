@@ -18,8 +18,8 @@ class AureliusDB:
         self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS user_info (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT UNIQUE REQUIRED,
-          current_model TEXT REQUIRED       
+          name TEXT UNIQUE NOT NULL,
+          current_model TEXT NOT NULL       
         )
 
         """)
@@ -51,14 +51,14 @@ class AureliusDB:
 
         self.conn.commit()
 
-    def add_message(self, role, content):
+    def add_message(self, content):
         """
         This method adds a recent message to the datebase
         """
         self.cursor.execute("""
-        INSERT INTO recent_messages (role, content)
-        VALUES (?, ?)
-        """, (role, content))
+        INSERT INTO recent_messages (content)
+        VALUES (?)
+        """, (content,))
         self.conn.commit()
 
     def get_recent_messages(self, limit=5):
@@ -66,7 +66,7 @@ class AureliusDB:
         This method gets the 10 recent message from the user
         """
         self.cursor.execute("""
-        SELECT role, content FROM recent_messages
+        SELECT content FROM recent_messages
         ORDER BY id DESC
         LIMIT ?
         """, (limit,))

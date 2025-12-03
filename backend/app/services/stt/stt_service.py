@@ -2,7 +2,9 @@
  This class contains all the tools for STT service
 """
 import asyncio
+import io
 from faster_whisper import WhisperModel
+from pydub import AudioSegment
 from app.services.stt.stt_config import STTConfig
 from app.exceptions.exception_handling import STTException
 
@@ -12,9 +14,9 @@ class STTService:
     This class contains all the methods for STT service
     """
 
-    def __init__(self):
+    def __init__(self, config: STTConfig):
+        self.config = config
         self.load_model()
-        self.config = STTConfig()
 
     def load_model(self):
         """
@@ -33,11 +35,11 @@ class STTService:
                 f"An error occurred while loading the STT model {e}"
             ) from e
 
-    async def transcript_audio(self, audio_bytes):
+    async def transcript_audio(self, audio_bytes: io.BytesIO):
         """This method transcribes audio from the backend"""
         if not self.model:
             raise STTException("STT model not found")
-            # Ejecutar en thread pool para no bloquear
+
         loop = asyncio.get_event_loop()
 
         try:

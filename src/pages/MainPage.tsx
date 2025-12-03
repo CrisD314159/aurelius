@@ -1,7 +1,12 @@
+import { Toaster } from "react-hot-toast";
+import CallButtonPCM from "../ui/call/CallButtonPCM";
+
+
 export default function MainPage() {
   return (
     <div>
-      Welcome to React on Electron
+      <Toaster/>
+        <CallButtonPCM/>
     </div>
   )
 }
