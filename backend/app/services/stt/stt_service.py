@@ -4,7 +4,6 @@
 import asyncio
 import io
 from faster_whisper import WhisperModel
-from pydub import AudioSegment
 from app.services.stt.stt_config import STTConfig
 from app.exceptions.exception_handling import STTException
 

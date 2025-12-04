@@ -2,10 +2,9 @@
 a communication between frontend and backend using websockets"""
 
 from typing import List
-import numpy as np
 import io
 import math
-from pydub import AudioSegment
+import numpy as np
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from app.services.stt.stt_config import STTConfig
 from app.services.stt.stt_service import STTService

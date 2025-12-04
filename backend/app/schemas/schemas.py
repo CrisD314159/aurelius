@@ -18,3 +18,4 @@ class ModelAnswer(BaseModel):
 class UserSetup(BaseModel):
     """To register the local user for the first time"""
     user_name: str
+    model: str
