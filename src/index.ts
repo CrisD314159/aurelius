@@ -33,19 +33,6 @@ const createWindow = (): void => {
     });
   });
 
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    // Abrir cualquier URL externa en el navegador
-    shell.openExternal(url);
-    return { action: 'deny' };
-  });
-
-  mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (!url.startsWith('file://')) {
-      event.preventDefault();
-      shell.openExternal(url);
-    }
-  });
-
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 

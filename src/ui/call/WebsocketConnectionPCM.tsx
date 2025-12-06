@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import toast from "react-hot-toast"
 
 
-export default function CallButtonPCM() {
+export default function WebsocketConnectionPCM() {
   const [isRecording, setIsRecording] = useState(false)
   const [socket, setSocket] = useState<WebSocket | null>(null)
   

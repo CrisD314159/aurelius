@@ -1,5 +1,6 @@
 import { Button } from "@mui/joy";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import SpeakingDotComponent from "../button/SpeakingDotComponent";
 
 interface ErrorComponentProps {
   message?: string;
@@ -53,6 +54,8 @@ export default function ErrorComponent({
           >
             Try Again
           </Button>
+
+          
     </div>
   )
 }
