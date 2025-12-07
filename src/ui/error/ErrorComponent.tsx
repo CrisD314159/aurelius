@@ -1,13 +1,13 @@
 import { Button } from "@mui/joy";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
-import SpeakingDotComponent from "../button/SpeakingDotComponent";
+import { ModelInfo } from "../../lib/definitions";
 
 interface ErrorComponentProps {
   message?: string;
   title?: string;
   refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
     success: boolean;
-    message: string;
+    message: string | ModelInfo[];
 }, Error>>
 }
 

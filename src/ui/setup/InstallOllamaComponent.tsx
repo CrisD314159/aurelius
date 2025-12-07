@@ -1,12 +1,13 @@
 import { Button } from "@mui/joy";
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import OllamaLogo from "../../assets/images/ollama.png";
+import { ModelInfo } from "../../lib/definitions";
 
 
 interface InstallOllamaComponentProps{
   refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
     success: boolean;
-    message: string;
+    message: string | ModelInfo[];
 }, Error>>
 }
 
@@ -21,12 +22,10 @@ export default function InstallOllamaComponent({refetch}:InstallOllamaComponentP
 
       <div className="flex flex-col justify-center items-center gap-5 mt-11">
         <div className="w-20 h-20 rounded-xl bg-white shadow-md flex justify-center items-center">
-          <a href="https://ollama.com">
-            <img src={OllamaLogo} alt="Ollama Logo" width={50} height={50} />
-          </a>
+          <img src={OllamaLogo} alt="Ollama Logo" width={50} height={50} />
         </div>
         <p className="text-slate-950 dark:text-[#faefe1]">
-          Click the Ollama logo to install Ollama on their official website
+          Go to ollama.com to install Ollama on their official website
         </p>
       </div>
 

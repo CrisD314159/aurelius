@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
-import { verifyUserRegistered } from "../../lib/http/http_queries"
+import { getAvailableModels } from "../../lib/http/http_queries"
 import { useEffect } from "react"
 import toast from "react-hot-toast"
 import SetupFormComponent from "../../ui/setup/SetupFormComponent"
@@ -9,7 +9,7 @@ import ErrorComponent from "../../ui/error/ErrorComponent"
 
 export default function SetupPage(){
 
-  const { isPending, isError, data, error, refetch } = useQuery({ queryKey: ['availableModels'], queryFn: verifyUserRegistered })
+  const { isPending, isError, data, error, refetch } = useQuery({ queryKey: ['availableModels'], queryFn: getAvailableModels })
 
   useEffect(()=>{
     if(isError){
@@ -26,10 +26,10 @@ export default function SetupPage(){
   }
 
   return (
-    <div>
+    <div className="w-full h-full">
       {
         data.success ?
-        <SetupFormComponent/>
+        <SetupFormComponent models={data.message}/>
         :
         <InstallOllamaComponent refetch={refetch}/>
       }
