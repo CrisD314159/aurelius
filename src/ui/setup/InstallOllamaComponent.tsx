@@ -17,7 +17,7 @@ export default function InstallOllamaComponent({refetch}:InstallOllamaComponentP
     <div className="w-full h-full flex flex-col gap-10 relative items-center px-8 py-12">
       <div>
         <h1 className="text-slate-950 dark:text-[#faefe1] font-bold text-xl text-center">You don't have Ollama installed on your machine</h1>
-        <h2 className="text-slate-950 dark:text-[#faefe1] text-center">To make Aurelius work, you need to install Ollama alongside with at least one LLM model available</h2>
+        <h2 className="text-slate-950 dark:text-[#faefe1] text-center">To make Aurelius work, you need to install and run Ollama alongside with at least one LLM model available</h2>
       </div>
 
       <div className="flex flex-col justify-center items-center gap-5 mt-11">

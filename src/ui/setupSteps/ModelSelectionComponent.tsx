@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import { ModelInfo } from "../../lib/definitions"
-import { IconButton } from '@mui/joy';
+import { Button, IconButton } from '@mui/joy';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
 interface ModelSelectionComponent{
   stepUp: () => void
@@ -10,9 +11,13 @@ interface ModelSelectionComponent{
   setModel: (name:string) => void
   selectedModel: string
   models: string | ModelInfo[]
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
+    success: boolean;
+    message: string | ModelInfo[];
+}, Error>>
 }
 
-export default function ModelSelectionComponent({models, setModel, stepDown, stepUp, selectedModel}:ModelSelectionComponent) {
+export default function ModelSelectionComponent({models, setModel, stepDown, stepUp, selectedModel, refetch}:ModelSelectionComponent) {
   
   return (
     <div className="w-full mx-auto px-6 py-8 h-full relative">
@@ -30,7 +35,7 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
       </motion.div>
 
       <div className="grid gap-4 mb-8">
-        {(Array.isArray(models) ? models : []).map((model, index) => (
+        {(Array.isArray(models) && models.length > 0 ? models : []).map((model, index) => (
           <motion.button
             key={model.model}
             onClick={() => setModel(model.model)}
@@ -70,6 +75,24 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
             </div>
           </motion.button>
         ))}
+          {(Array.isArray(models) && models.length === 0 &&
+            <div className='w-full h-full flex flex-col items-center'>
+              <h2 className='text-xl font-bold text-gray-900 dark:text-[#faefe1]'>
+                You dont have any local model installed on your system</h2>
+
+              <p className='text-gray-600 dark:text-gray-400 mb-8'>
+                To use Aurelius properly, you need to install at least 1 LLM on your machine</p>
+
+              <h3 className='text-gray-600 dark:text-[#faefe1] mb-8 text-lg'>To install a local model, you can use the command below</h3>
+
+              <div className='w-[50%] h-12 bg-slate-900 flex items-center justify-center rounded-md border mb-10'>
+                <p className='font-mono text-[#faefe1] text-lg'>ollama run qwen2.5:3b</p>  
+              </div>
+
+              <Button size='lg' color='success' variant='solid' onClick={()=> refetch()}>I have a model installed</Button>
+            </div>
+          )}
+      
       </div>
 
       <div className="flex w-full justify-around absolute bottom-10">

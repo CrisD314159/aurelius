@@ -5,16 +5,20 @@ import { Check } from "@mui/icons-material";
 import NameStepComponent from "../setupSteps/NameStepComponent";
 import ModelSelectionComponent from "../setupSteps/ModelSelectionComponent";
 import SetupCompleteComponent from "../setupSteps/SetupCompleteComponent";
-import { useMutation } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../lib/http/http_queries";
 import toast from "react-hot-toast";
 import LoadingComponent from "../loading/LoadingComponent";
 
 interface SetupFormComponentProps{
   models: string | ModelInfo[]
+  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
+    success: boolean;
+    message: string | ModelInfo[];
+}, Error>>
 }
 
-export default function SetupFormComponent({models}:SetupFormComponentProps) {
+export default function SetupFormComponent({models, refetch}:SetupFormComponentProps) {
   console.log(models);
   const steps = ["What's your name?", "Select your favorite model", "You're all set"]
   const [stepPosition, setStepPosition]= useState(0)
@@ -37,6 +41,7 @@ export default function SetupFormComponent({models}:SetupFormComponentProps) {
 
   const handleSubmit = () =>{
     setStepPosition(2)
+    console.log(modelSelected, userName);
     mutate({model: modelSelected, user_name: userName})
   }
 
@@ -85,7 +90,9 @@ export default function SetupFormComponent({models}:SetupFormComponentProps) {
           setModel={setModelSelected} 
           selectedModel={modelSelected}
           stepDown={handleStepPositionDown}
-          stepUp={handleSubmit}/>
+          stepUp={handleSubmit}
+          refetch={refetch}
+          />
 
     }
     {

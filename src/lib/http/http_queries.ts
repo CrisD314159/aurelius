@@ -48,9 +48,12 @@ export async function modifyUser(values:RegisterUserInterface, method:string, en
 
     const response = await fetch(`${httpAPI}${endpoint}`, {
       method,
-      body: JSON.stringify({values}),
+      body: JSON.stringify({
+        "user_name": values.user_name,
+        "model": values.model
+      }),
       headers:{
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json" 
       },
 
     })

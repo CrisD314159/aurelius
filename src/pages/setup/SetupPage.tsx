@@ -29,7 +29,7 @@ export default function SetupPage(){
     <div className="w-full h-full">
       {
         data.success ?
-        <SetupFormComponent models={data.message}/>
+        <SetupFormComponent models={data.message} refetch={refetch}/>
         :
         <InstallOllamaComponent refetch={refetch}/>
       }
