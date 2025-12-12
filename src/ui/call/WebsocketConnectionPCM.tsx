@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import GreenRecordingButton from "../button/GreenRecordingButton"
 
 export default function WebsocketConnectionPCM() {
   const [isRecording, setIsRecording] = useState(false)
@@ -186,39 +187,27 @@ export default function WebsocketConnectionPCM() {
   }, [])
 
   return (
-    <div className="flex flex-col gap-4 p-4 border rounded shadow-md max-w-sm">
-      <h2 className="font-bold text-lg">Asistente de Voz</h2>
+    <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded">
+      <div>
+        logo
+      </div>
       <div className="flex gap-2">
-        {isRecording ? (
-          <button 
-            onClick={stopRecording}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors w-full"
-          >
-            Detener (Usuario)
-          </button>
-        ) : (
-          <button 
-            onClick={startRecording}
-            disabled={isPlaying} // Opcional: deshabilitar si el bot habla
-            className={`${isPlaying ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-2 rounded transition-colors w-full`}
-          >
-            {isPlaying ? 'Escuchando al bot...' : 'Iniciar Conversación'}
-          </button>
-        )}
+          <GreenRecordingButton 
+            className="w-64 h-64"
+            isRecording={isRecording}
+            isPlaying={isPlaying} 
+            onClick={(()=>{
+              isRecording ?
+              stopRecording()
+              :
+              startRecording()
+            })
+              
+            }
+            color={isRecording ? "#ef4444" : "#22c55e"} // Switches to Red when recording, Green when idle
+          />
       </div>
       
-      <div className="text-sm text-gray-600 h-6">
-        {isPlaying && (
-          <span className="text-green-600 font-semibold animate-pulse">
-            Reproduciendo respuesta... (Cola: {audioQueueRef.current.length})
-          </span>
-        )}
-        {isRecording && (
-          <span className="text-red-600 font-semibold animate-pulse">
-             🔴 Grabando...
-          </span>
-        )}
-      </div>
     </div>
   )
 }

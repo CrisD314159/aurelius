@@ -83,10 +83,10 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
               <p className='text-gray-600 dark:text-gray-400 mb-8'>
                 To use Aurelius properly, you need to install at least 1 LLM on your machine</p>
 
-              <h3 className='text-gray-600 dark:text-[#faefe1] mb-8 text-lg'>To install a local model, you can use the command below</h3>
+              <h3 className='text-gray-600 dark:text-[#faefe1] mb-8 text-lg'>To install a recommended local model, you can use the command below</h3>
 
               <div className='w-[50%] h-12 bg-slate-900 flex items-center justify-center rounded-md border mb-10'>
-                <p className='font-mono text-[#faefe1] text-lg'>ollama run qwen2.5:3b</p>  
+                <p className='font-mono text-[#faefe1] text-lg'>ollama run llama3.1:8b-instruct-q2_K</p>  
               </div>
 
               <Button size='lg' color='success' variant='solid' onClick={()=> refetch()}>I have a model installed</Button>

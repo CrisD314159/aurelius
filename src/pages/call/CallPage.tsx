@@ -2,7 +2,7 @@ import WebsocketConnectionPCM from "../../ui/call/WebsocketConnectionPCM";
 
 export default function CallPage() {
   return (
-    <div>
+    <div className="w-full h-full">
       <WebsocketConnectionPCM/>
     </div>
   )
