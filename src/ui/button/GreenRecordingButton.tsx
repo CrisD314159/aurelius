@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, FC, useState } from 'react';
+import { useRef, useEffect, FC, useState } from 'react';
 import * as THREE from 'three';
 import {motion} from 'motion/react'
 
@@ -405,16 +405,7 @@ const GreenRecordingButton: FC<RecordingButtonProps> = ({
             }}
           />
         </div>
-        
-        {/* Status text */}
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-          <span className={`
-            text-xs font-medium transition-all duration-300
-            ${isPlaying ? 'text-blue-400 animate-pulse' : isRecording ? 'text-red-500 animate-pulse' : 'text-gray-400'}
-          `}>
-            {isPlaying ? '▶ Playing' : isRecording ? '● Recording' : 'Ready'}
-          </span>
-        </div>
+      
       </div>
 
       {/* Keyframes for equalizer animation */}

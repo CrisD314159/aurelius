@@ -20,8 +20,9 @@ interface ModelSelectionComponent{
 export default function ModelSelectionComponent({models, setModel, stepDown, stepUp, selectedModel, refetch}:ModelSelectionComponent) {
   
   return (
-    <div className="w-full mx-auto px-6 py-8 h-full relative">
+    <div className="w-full flex flex-col items-center mx-auto px-6 py-8 h-full">
       <motion.div
+        className='w-full flex flex-col items-start'
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -34,12 +35,12 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
         </p>
       </motion.div>
 
-      <div className="grid gap-4 mb-8">
+      <div className=" flex flex-col items-center gap-4 mb-8 overflow-y-scroll w-full pb-8 pt-3">
         {(Array.isArray(models) && models.length > 0 ? models : []).map((model, index) => (
           <motion.button
             key={model.model}
             onClick={() => setModel(model.model)}
-            className={`relative w-full p-6 rounded-2xl border-2 text-left overflow-hidden transition-all ${
+            className={`w-[95%] p-6 rounded-2xl border-2 text-left transition-all h-[100px] ${
               selectedModel === model.model
                 ? 'bg-gradient-to-br from-green-500 to-green-600 border-green-700 shadow-lg shadow-green-500/40'
                 : 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-300 dark:border-green-700 hover:border-green-400 dark:hover:border-green-600 hover:shadow-md'

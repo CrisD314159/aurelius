@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react"
 import GreenRecordingButton from "../button/GreenRecordingButton"
+import MenuComponent from "../menu/MenuComponent"
 
 export default function WebsocketConnectionPCM() {
   const [isRecording, setIsRecording] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [botTrascription, setBotTrascription] = useState<string>('')
 
   const audioQueueRef = useRef<ArrayBuffer[]>([])
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -159,6 +161,10 @@ export default function WebsocketConnectionPCM() {
              startRecording()
              ttsFinishedRef.current = false
           }
+        }else{
+          console.log(e.data)
+          const new_out = botTrascription + " " + e.data
+          setBotTrascription(new_out)
         }
       } else {
         let buffer
@@ -184,14 +190,17 @@ export default function WebsocketConnectionPCM() {
         playbackContextRef.current.close()
       }
     }
-  }, [])
+  }, [setBotTrascription])
 
   return (
-    <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded">
-      <div>
-        logo
+    <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded relative">
+      <MenuComponent/>
+      <div className="w-full relative top-[25%] h-28">
+        <p>
+          {botTrascription}
+        </p>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 absolute top-[55%]">
           <GreenRecordingButton 
             className="w-64 h-64"
             isRecording={isRecording}
