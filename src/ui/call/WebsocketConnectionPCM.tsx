@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import GreenRecordingButton from "../button/GreenRecordingButton"
 import MenuComponent from "../menu/MenuComponent"
+import toast from "react-hot-toast"
 
 export default function WebsocketConnectionPCM() {
   const [isRecording, setIsRecording] = useState(false)
@@ -141,6 +142,7 @@ export default function WebsocketConnectionPCM() {
     source.start(0)
   }
 
+
   useEffect(() => {
     const websocket = new WebSocket("ws://localhost:8000/ws/call")
     socket.current = websocket
@@ -162,9 +164,14 @@ export default function WebsocketConnectionPCM() {
              ttsFinishedRef.current = false
           }
         }else{
-          console.log(e.data)
-          const new_out = botTrascription + " " + e.data
-          setBotTrascription(new_out)
+          const data = JSON.parse(e.data)
+          if(data.type === "error") {
+            toast.error(data.message)
+          }else if(data.type === "answer"){
+            const new_out = botTrascription + " " + data.message
+            setBotTrascription(new_out)
+          }
+
         }
       } else {
         let buffer

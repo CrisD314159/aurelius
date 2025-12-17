@@ -4,6 +4,7 @@ import { Button, IconButton } from '@mui/joy';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import ChooseModelButton from '../button/ChooseModelButton';
 
 interface ModelSelectionComponent{
   stepUp: () => void
@@ -37,44 +38,7 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
 
       <div className=" flex flex-col items-center gap-4 mb-8 overflow-y-scroll w-full pb-8 pt-3">
         {(Array.isArray(models) && models.length > 0 ? models : []).map((model, index) => (
-          <motion.button
-            key={model.model}
-            onClick={() => setModel(model.model)}
-            className={`w-[95%] p-6 rounded-2xl border-2 text-left transition-all h-[100px] ${
-              selectedModel === model.model
-                ? 'bg-gradient-to-br from-green-500 to-green-600 border-green-700 shadow-lg shadow-green-500/40'
-                : 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-300 dark:border-green-700 hover:border-green-400 dark:hover:border-green-600 hover:shadow-md'
-            }`}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 20,
-              delay: index * 0.1
-            }}
-          > 
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <h3 className={`text-xl font-semibold mb-2 ${
-                  selectedModel === model.model 
-                    ? 'text-white' 
-                    : 'text-green-900 dark:text-green-100'
-                }`}>
-                  {model.model}
-                </h3>
-                <p className={`text-sm ${
-                  selectedModel === model.model 
-                    ? 'text-green-50' 
-                    : 'text-green-700 dark:text-green-300'
-                }`}>
-                  {model.details.parameter_size || 'AI language model'}
-                </p>
-              </div>
-            </div>
-          </motion.button>
+          <ChooseModelButton index={index} model={model} selectedModel={selectedModel} setModel={setModel}/>
         ))}
           {(Array.isArray(models) && models.length === 0 &&
             <div className='w-full h-full flex flex-col items-center'>

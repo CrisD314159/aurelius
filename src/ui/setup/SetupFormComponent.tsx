@@ -19,7 +19,7 @@ interface SetupFormComponentProps{
 }
 
 export default function SetupFormComponent({models, refetch}:SetupFormComponentProps) {
-  console.log(models);
+
   const steps = ["What's your name?", "Select your favorite model", "You're all set"]
   const [stepPosition, setStepPosition]= useState(0)
   const [userName, setUserName]= useState('')

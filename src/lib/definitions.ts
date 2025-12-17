@@ -14,6 +14,11 @@ export interface ModelResponse {
   message: ModelInfo[]
 }
 
+export interface ConfigResponse {
+  success: boolean
+  message: {user_data: string[], available_models: ModelInfo[]}
+}
+
 export interface ModelInfo {
   model: string,
   size: number,
