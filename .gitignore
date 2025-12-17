@@ -91,4 +91,7 @@ typings/
 # Electron-Forge
 out/
 
+#Webstorm folder
+.idea
+
 

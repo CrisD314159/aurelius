@@ -37,3 +37,20 @@ export interface RegisterUserInterface{
   user_name: string
   model: string
 }
+
+export interface ChatContent{
+  id:number
+  title: string
+  dateCreated:string
+}
+
+
+export interface ChatMessages{
+  id:number
+  messages: MessageContent[]
+}
+
+export interface MessageContent{
+  user:string
+  content:string
+}

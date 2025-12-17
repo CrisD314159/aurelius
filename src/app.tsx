@@ -4,10 +4,10 @@ import {Routes, Route  } from 'react-router';
 import MainPage from './pages/Main/MainPage';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from 'react-hot-toast';
-import CallPage from './pages/call/CallPage';
 import SetupPage from './pages/setup/SetupPage';
 import '@fontsource/inter';
 import { HashRouter } from 'react-router-dom';
+import ChatPage from "./pages/call/ChatPage";
 
 
 const root = document.getElementById('root');
@@ -25,7 +25,7 @@ ReactDOM.createRoot(root).render(
       <Routes>
         <Route element={<RootPage/>}>
           <Route path='/' element={<MainPage/>}/>
-          <Route path='/call' element={<CallPage/>}/>
+          <Route path='/call' element={<ChatPage/>}/>
           <Route path='/setup' element={<SetupPage/>}/>
         </Route>
       </Routes>

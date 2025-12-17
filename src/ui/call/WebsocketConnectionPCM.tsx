@@ -201,12 +201,6 @@ export default function WebsocketConnectionPCM() {
 
   return (
     <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded relative">
-      <MenuComponent/>
-      <div className="w-full relative top-[25%] h-28">
-        <p>
-          {botTrascription}
-        </p>
-      </div>
       <div className="flex gap-2 absolute top-[55%]">
           <GreenRecordingButton 
             className="w-64 h-64"
@@ -220,10 +214,9 @@ export default function WebsocketConnectionPCM() {
             })
               
             }
-            color={isRecording ? "#ef4444" : "#22c55e"} // Switches to Red when recording, Green when idle
+            color={isRecording ? "#ef4444" : "#22c55e"}
           />
       </div>
-      
     </div>
   )
 }
