@@ -60,13 +60,13 @@ export default function ChangeConfigModalForm({open, setOpen}:ChangeConfigModalF
   }
 
   return (
-  <motion.div initial={{opacity:0}} exit={{opacity:1}}  animate={{opacity:1}} className={`fixed inset-0 z-30 w-screen h-screen backdrop-blur-md flex justify-center items-center`}
+  <motion.div initial={{opacity:0}} exit={{opacity:1}}  animate={{opacity:1}} className={`fixed inset-0 z-30 w-screen h-screen flex justify-center items-center`}
         onClick={()=> setOpen(false)}>
       <motion.div 
                 initial={{opacity:0, ascent:0}} 
                 animate={{opacity: 1, ascent:1}}
                 exit={{opacity:1, ascent:0}} 
-                className='z-50 w-[90%] max-w-2xl h-auto max-h-[80vh] rounded-2xl p-8 bg-[#faefe1] dark:bg-zinc-900 shadow-2xl border border-zinc-200 dark:border-zinc-800 overflow-y-auto'
+                className='z-50 w-[90%] max-w-2xl h-auto max-h-[80vh] rounded-2xl p-8 bg-[#faefe1] dark:bg-zinc-950 shadow-2xl border overflow-y-auto'
                 onClick={(e) => e.stopPropagation()}
               >
       
@@ -110,7 +110,7 @@ export default function ChangeConfigModalForm({open, setOpen}:ChangeConfigModalF
                       </h1>
                       <div className='w-full max-h-48 flex flex-col items-center gap-5 overflow-y-auto rounded-lg border border-zinc-200 dark:border-zinc-700 p-2 space-y-2'>
                         {
-                          (Array.isArray(data.message.available_models) && data.message.available_models.length > 0 ? 
+                          (data.message.available_models.length > 0 ?
                           data.message.available_models : []
                           ).map((model, index) =>
                           <ChooseModelButton

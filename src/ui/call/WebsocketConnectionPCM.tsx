@@ -1,12 +1,17 @@
 import { useState, useRef, useEffect } from "react"
 import GreenRecordingButton from "../button/GreenRecordingButton"
-import MenuComponent from "../menu/MenuComponent"
 import toast from "react-hot-toast"
+import {MessageContent} from "../../lib/definitions";
 
-export default function WebsocketConnectionPCM() {
+interface WebsocketConnectionPCMProps{
+  setChatId: (chatId: number) => void
+  chatId: number
+  addNewMessage: (message: MessageContent) => void
+}
+
+export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage}: WebsocketConnectionPCMProps) {
   const [isRecording, setIsRecording] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [botTrascription, setBotTrascription] = useState<string>('')
 
   const audioQueueRef = useRef<ArrayBuffer[]>([])
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -144,7 +149,7 @@ export default function WebsocketConnectionPCM() {
 
 
   useEffect(() => {
-    const websocket = new WebSocket("ws://localhost:8000/ws/call")
+    const websocket = new WebSocket(`ws://localhost:8000/ws/call/${chatId}`)
     socket.current = websocket
 
     websocket.onopen = () => console.log("Backend connected")
@@ -160,7 +165,7 @@ export default function WebsocketConnectionPCM() {
           ttsFinishedRef.current = true
           
           if (!isPlayingRef.current && audioQueueRef.current.length === 0) {
-             startRecording()
+             await startRecording()
              ttsFinishedRef.current = false
           }
         }else{
@@ -168,8 +173,8 @@ export default function WebsocketConnectionPCM() {
           if(data.type === "error") {
             toast.error(data.message)
           }else if(data.type === "answer"){
-            const new_out = botTrascription + " " + data.message
-            setBotTrascription(new_out)
+            setChatId(data.chat_id)
+            addNewMessage(data.message)
           }
 
         }
@@ -197,7 +202,7 @@ export default function WebsocketConnectionPCM() {
         playbackContextRef.current.close()
       }
     }
-  }, [setBotTrascription])
+  }, [addNewMessage, setChatId])
 
   return (
     <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded relative">

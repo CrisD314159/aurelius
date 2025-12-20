@@ -39,7 +39,7 @@ const MinimalistRecordingButton: React.FC<RecordingButtonProps> = ({
             whileTap={{ scale: 0.95 }}
             disabled={isPlaying}
             className={`
-          relative z-10 w-20 h-20 rounded-full flex items-center justify-center
+          relative w-20 h-20 rounded-full flex items-center justify-center
           bg-white shadow-lg border-4 transition-colors duration-300
           ${isPlaying ? 'cursor-not-allowed opacity-80' : 'cursor-pointer'}
         `}

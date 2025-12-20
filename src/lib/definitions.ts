@@ -19,6 +19,11 @@ export interface ConfigResponse {
   message: {user_data: string[], available_models: ModelInfo[]}
 }
 
+export interface ChatsResponse{
+  success: boolean
+  message: ChatContent[]
+}
+
 export interface ModelInfo {
   model: string,
   size: number,
@@ -40,17 +45,26 @@ export interface RegisterUserInterface{
 
 export interface ChatContent{
   id:number
+  user_id: number
   title: string
-  dateCreated:string
+  date_created:string
+}
+
+export interface ChatMessagesResponse{
+  success: boolean
+  message: ChatMessages
 }
 
 
 export interface ChatMessages{
-  id:number
+  chat_id:number
   messages: MessageContent[]
 }
 
 export interface MessageContent{
-  user:string
-  content:string
+  id:number
+  chat_id:number
+  user_message:string
+  model_message:string
+  message_date:string
 }
