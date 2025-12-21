@@ -9,7 +9,7 @@ interface RecordingButtonProps {
   color?: string; // Color principal (ej: #22c55e)
 }
 
-const MinimalistRecordingButton: React.FC<RecordingButtonProps> = ({
+const GreenRecordingButton: React.FC<RecordingButtonProps> = ({
                                                                      className = '',
                                                                      isRecording = false,
                                                                      isPlaying = false,
@@ -18,19 +18,6 @@ const MinimalistRecordingButton: React.FC<RecordingButtonProps> = ({
                                                                    }) => {
   return (
       <div className={`relative flex items-center justify-center ${className}`}>
-        {/* Anillo exterior de pulsación (Solo cuando graba) */}
-        <AnimatePresence>
-          {isRecording && (
-              <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: [0.1, 0.4, 0.1], scale: [1, 1.3, 1] }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute inset-0 rounded-full"
-                  style={{ backgroundColor: color }}
-              />
-          )}
-        </AnimatePresence>
 
         {/* Botón Principal */}
         <motion.button
@@ -91,4 +78,4 @@ const MinimalistRecordingButton: React.FC<RecordingButtonProps> = ({
   );
 };
 
-export default MinimalistRecordingButton;
+export default GreenRecordingButton;

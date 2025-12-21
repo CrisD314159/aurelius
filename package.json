@@ -60,8 +60,10 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hot-toast": "^2.6.0",
+    "react-markdown": "^10.1.0",
     "react-router": "^7.10.1",
     "react-router-dom": "^7.10.1",
+    "rehype-prism-plus": "^2.0.1",
     "three": "^0.182.0"
   }
 }

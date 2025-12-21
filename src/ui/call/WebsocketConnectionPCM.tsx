@@ -205,23 +205,21 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
   }, [addNewMessage, setChatId])
 
   return (
-    <div className="w-full items-center h-full flex flex-col gap-4 p-4 border rounded relative">
-      <div className="flex gap-2 absolute top-[55%]">
-          <GreenRecordingButton 
-            className="w-64 h-64"
-            isRecording={isRecording}
-            isPlaying={isPlaying} 
-            onClick={(()=>{
-              isRecording ?
-              stopRecording()
-              :
-              startRecording()
-            })
-              
-            }
-            color={isRecording ? "#ef4444" : "#22c55e"}
-          />
-      </div>
+    <div className="w-full items-center justify-center h-full flex">
+        <GreenRecordingButton
+          className="w-full h-full"
+          isRecording={isRecording}
+          isPlaying={isPlaying}
+          onClick={(()=>{
+            isRecording ?
+            stopRecording()
+            :
+            startRecording()
+          })
+
+          }
+          color={isRecording ? "#ef4444" : "#22c55e"}
+        />
     </div>
   )
 }

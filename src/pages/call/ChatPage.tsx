@@ -3,6 +3,7 @@ import MenuComponent from "../../ui/menu/MenuComponent";
 import {useState} from "react";
 import {ChatMessages, MessageContent} from "../../lib/definitions";
 import ChatInputComponent from "../../ui/inputs/ChatInputComponent";
+import MessagesContainer from "../../ui/containers/MessagesContainer";
 
 export default function ChatPage() {
     const [messages, setMessages] = useState<MessageContent[]>([]);
@@ -23,13 +24,16 @@ export default function ChatPage() {
     <div className="w-screen h-screen flex flex-col relative items-center">
         <MenuComponent setChat={handleSetMessages}/>
 
-        <div>
-            Chat
+        <div className={'w-full flex-1 overflow-y-scroll '}>
+            <MessagesContainer messages={messages}/>
         </div>
 
         <div className={'absolute bottom-12 w-full h-11 flex items-center justify-center'}>
             <div className={'w-[80%] h-full'}>
                 <ChatInputComponent setChatId={setChatId} chatId={chatId} addNewMessage={addNewMessage}/>
+            </div>
+            <div className={'w-[20%] h-full'}>
+                <WebsocketConnectionPCM setChatId={setChatId} chatId={chatId} addNewMessage={addNewMessage}/>
             </div>
 
         </div>
