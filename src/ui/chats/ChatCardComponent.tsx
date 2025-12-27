@@ -18,19 +18,23 @@ export default function ChatCardComponent({id, title, date_created, setChat}:Cha
     const {isPending, mutate} = useMutation({
         mutationKey:['chatMessages'],
         mutationFn:getChatMessages,
-        onError: ((error)=> toast.error(error.message)),
+        onError: ((error)=> {
+            toast.error(error.message)
+            console.error(error)
+        }),
         onSuccess: ((data)=>{
             setChat(data.message)
         })
     })
 
-    const fetchChatMessages = ()=> {
-        mutate(id)
+    const fetchChatMessages = (chat_id:number)=> {
+        console.log("id", chat_id)
+        mutate(chat_id)
     }
 
     return (
-        <motion.button onClick={()=> fetchChatMessages()} disabled={isPending}>
-            <p className='text-lg text-gray-950 dark:bg-[#faefe1]'>{title}</p>
+        <motion.button className={'w-full h-10 px-3 truncate text-ellipsis rounded-md my-1 bg-[#faefe2]/60 dark:bg-gray-900/60'} onClick={()=> fetchChatMessages(id)} disabled={isPending}>
+            <p className='text-sm text-gray-950 dark:text-[#faefe1]'>{title}</p>
         </motion.button>
     )
 }

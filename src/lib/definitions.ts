@@ -44,7 +44,7 @@ export interface RegisterUserInterface{
 }
 
 export interface ChatContent{
-  id:number
+  chat_id:number
   user_id: number
   title: string
   date_created:string
@@ -66,5 +66,5 @@ export interface MessageContent{
   chat_id:number
   user_message:string
   model_message:string
-  message_date:string
+  message_date?:string
 }

@@ -33,25 +33,25 @@ export default function ChatsDrawer({setChat}:ChatsDrawerProps) {
             </IconButton>
 
             {open &&
-                <motion.div className='fixed inset-0 w-screen h-screen  flex items-center justify-start z-10'
+                <motion.div className='fixed inset-0 w-screen h-screen flex items-center justify-start z-20'
                             onClick={()=> setOpen(false)}
                             initial={{opacity:0}}
                             animate={{opacity:1}} >
 
-                    <motion.div className='h-[95%] w-[200px] py-7 px-5 z-20 flex flex-col shadow-2xl
-                     backdrop-blur-md rounded-3xl bg-[#faefe1]/10 dark:bg-zinc-900/30  '
+                    <motion.div className='h-[95%] w-[200px] py-7 px-5 z-30 flex flex-col shadow-2xl
+                     backdrop-blur-lg rounded-3xl bg-[#faefe1]/10 dark:bg-zinc-900/30'
                                 onClick={(e)=> e.stopPropagation()}
                                 initial={{opacity:0, x:-100}} animate={{opacity:1, x:10}} exit={{opacity:0, x:-100 }} >
 
 
                         <ChangeConfigModal/>
 
-                        <div className='w-full h-full pt-3 border-t border-t-gray-800 dark:border-t-gray-600'>
+                        <div className='w-full h-full border-md border-t-gray-800 dark:border-t-gray-600 overflow-y-scroll no-scrollbar'>
                             {isPending && <LoadingComponent/>}
                             {isSuccess && data.message.length > 0? data.message.map(
                                   (chat) =>
-                                      <ChatCardComponent id={chat.id}
-                                                         key={chat.id}
+                                      <ChatCardComponent id={chat.chat_id}
+                                                         key={chat.chat_id}
                                                          title={chat.title}
                                                          date_created={chat.date_created}
                                                          setChat={setChat}/> )

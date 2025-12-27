@@ -11,7 +11,7 @@ export default  function UserMessageContainer ({message}: UserMessageContainerPr
     return (
         <motion.div initial={{opacity: 0, y:-100}}
                     animate={{opacity:1, y:0}}
-                    className={'w-[80%] rounded-l bg-green-600 dark:bg-green-900'}>
+                    className={'w-[80%] rounded-md bg-green-600 dark:bg-green-900 px-1.5 py-0.5 my-3.5'}>
             <p className={'text-gray-950  dark:text-[#faefe1]'}>
                 {message}
             </p>

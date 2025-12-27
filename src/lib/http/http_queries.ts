@@ -70,6 +70,7 @@ export async function getChats() : Promise<{ success: boolean, message: ChatCont
 
 export async function getChatMessages(id:number): Promise<{success: boolean, message:ChatMessages}> {
   const response:Response = await fetch(`${httpAPI}/chats/getChatContent/${id}`)
+  console.log(response)
   if(response.ok){
     const data: ChatMessagesResponse = await response.json()
     return {
