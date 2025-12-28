@@ -4,6 +4,7 @@ import {ChatMessages, MessageContent} from "../../lib/definitions";
 import ChatInputComponent from "../../ui/inputs/ChatInputComponent";
 import MessagesContainer from "../../ui/containers/MessagesContainer";
 import ChatsDrawer from "../../ui/chats/ChatsDrawer";
+import NewChatButton from "../../ui/button/NewChatButton";
 
 export default function ChatPage() {
     const [messages, setMessages] = useState<MessageContent[]>([]);
@@ -34,7 +35,10 @@ export default function ChatPage() {
   return (
     <div className="w-screen h-screen flex flex-col relative items-center">
 
-        <ChatsDrawer setChat={handleSetMessages}/>
+        <div className={'fixed left-3 top-3 flex items-center gap-3 z-10'}>
+            <ChatsDrawer setChat={handleSetMessages}/>
+            <NewChatButton resetChats={setMessages} setChatId={setChatId} chatId={chatId}/>
+        </div>
 
 
 
@@ -52,11 +56,13 @@ export default function ChatPage() {
                 />
             </div>
             <div className={'w-[20%] h-full'}>
-                {/*
 
-                 <WebsocketConnectionPCM setChatId={handleSetChatId} chatId={chatId} addNewMessage={addNewMessage}/>
+                <WebsocketConnectionPCM setChatId={handleSetChatId}
+                                        chatId={chatId}
+                                        addNewMessage={addNewMessage}
+                                        setTranscription={setNewUserPromptSent}/>
 
-                */}
+
             </div>
 
         </div>

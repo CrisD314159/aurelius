@@ -26,8 +26,9 @@ const GreenRecordingButton: React.FC<RecordingButtonProps> = ({
             whileTap={{ scale: 0.95 }}
             disabled={isPlaying}
             className={`
-          relative w-20 h-20 rounded-full flex items-center justify-center
-          bg-white shadow-lg border-4 transition-colors duration-300
+          relative w-14 h-14 rounded-full flex items-center justify-center
+          backdrop-blur-md
+          bg-white/50 shadow-lg border-4 transition-colors duration-300
           ${isPlaying ? 'cursor-not-allowed opacity-80' : 'cursor-pointer'}
         `}
             style={{ borderColor: color }}

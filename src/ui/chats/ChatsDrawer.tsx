@@ -29,7 +29,7 @@ export default function ChatsDrawer({setChat}:ChatsDrawerProps) {
     return (
         <>
             <button onClick={()=> setOpen(true)}
-                    className={'w-11 h-11 z-10 fixed left-3 top-3  dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}>
+                    className={'w-11 h-11 dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}>
                     <ViewSidebarRoundedIcon/>
             </button>
 

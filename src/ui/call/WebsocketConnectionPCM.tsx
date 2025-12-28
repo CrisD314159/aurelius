@@ -7,9 +7,10 @@ interface WebsocketConnectionPCMProps{
   setChatId: (chatId: number) => void
   chatId: number
   addNewMessage: (message: MessageContent) => void
+  setTranscription: (transcription : string) => void
 }
 
-export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage}: WebsocketConnectionPCMProps) {
+export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage, setTranscription}: WebsocketConnectionPCMProps) {
   const [isRecording, setIsRecording] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
@@ -147,31 +148,38 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
     source.start(0)
   }
 
+  const handleSocketSwitching = (id:number)=> {
+    if (socket.current) {
+      socket.current.onclose = null;
+      socket.current.close();
+    }
 
-  useEffect(() => {
-    const websocket = new WebSocket(`ws://localhost:8000/ws/call/${chatId}`)
-    socket.current = websocket
+    const ws = new WebSocket(`ws://localhost:8000/ws/text/${id}`);
 
-    websocket.onopen = () => console.log("Backend connected")
-    websocket.onclose = () => console.log("Socket closed")
-    websocket.onerror = (e) => console.error("Connection error:", e)
+    ws.onopen = () => console.log(`Connected to chat ${id}`);
+    ws.onerror = (e) => {
+      toast.error("Connection error");
+    };
+    ws.onclose = () => console.log("Socket closed");
 
-    websocket.onmessage = async (e) => {
+    ws.onmessage = async (e) => {
       if (typeof e.data === "string") {
         if (e.data === "silence") {
           stopRecording()
         } else if (e.data === "TTS_END") {
           console.log("Señal TTS_END recibida. Esperando a que termine el audio...")
           ttsFinishedRef.current = true
-          
+
           if (!isPlayingRef.current && audioQueueRef.current.length === 0) {
-             await startRecording()
-             ttsFinishedRef.current = false
+            await startRecording()
+            ttsFinishedRef.current = false
           }
         }else{
           const data = JSON.parse(e.data)
           if(data.type === "error") {
             toast.error(data.message)
+          }else  if(data.type === "transcription"){
+            setTranscription(data.message)
           }else if(data.type === "answer"){
             setChatId(data.chat_id)
             addNewMessage(data.message)
@@ -185,7 +193,7 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
         } else if (e.data instanceof ArrayBuffer) {
           buffer = e.data
         }
-        
+
         if (buffer) {
           audioQueueRef.current.push(buffer)
           if (!isPlayingRef.current) {
@@ -195,14 +203,23 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
       }
     }
 
-    return () => {
-      websocket.close()
-      stopRecording()
-      if (playbackContextRef.current) {
-        playbackContextRef.current.close()
-      }
+    socket.current = ws;
+  }
+
+
+  useEffect(() => {
+    if (chatId) {
+      console.log("Cambio de socket")
+      handleSocketSwitching(chatId);
     }
-  }, [addNewMessage, setChatId])
+
+    return () => {
+      if(socket.current){
+        socket.current?.close();
+        socket.current = null
+      }
+    };
+  }, [chatId]);
 
   return (
     <div className="w-full items-center justify-center h-full flex">
