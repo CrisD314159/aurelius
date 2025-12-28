@@ -1,6 +1,5 @@
-import {IconButton} from "@mui/joy";
 import {useEffect, useState} from "react";
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import ViewSidebarRoundedIcon from '@mui/icons-material/ViewSidebarRounded';
 import {motion} from "framer-motion";
 import {ChatMessages} from "../../lib/definitions";
 import ChangeConfigModal from "../modals/ChangeConfigModal";
@@ -9,6 +8,7 @@ import {getChats} from "../../lib/http/http_queries";
 import toast from "react-hot-toast";
 import LoadingComponent from "../loading/LoadingComponent";
 import ChatCardComponent from "./ChatCardComponent";
+
 
 
 
@@ -28,9 +28,10 @@ export default function ChatsDrawer({setChat}:ChatsDrawerProps) {
 
     return (
         <>
-            <IconButton onClick={()=> setOpen(true)}>
-                <MenuOpenIcon/>
-            </IconButton>
+            <button onClick={()=> setOpen(true)}
+                    className={'w-11 h-11 z-10 fixed left-3 top-3  dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}>
+                    <ViewSidebarRoundedIcon/>
+            </button>
 
             {open &&
                 <motion.div className='fixed inset-0 w-screen h-screen flex items-center justify-start z-20'

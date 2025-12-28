@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import {useEffect, useRef, useState} from "react"
 import toast from "react-hot-toast"
 import {MessageContent} from "../../lib/definitions";
 import SendIcon from '@mui/icons-material/Send';
@@ -18,12 +18,49 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
     const socket = useRef<WebSocket | null>(null)
 
 
+    const handleSocketSwitching = (id:number)=> {
+        if (socket.current) {
+            socket.current.onclose = null;
+            socket.current.close();
+        }
+
+        const ws = new WebSocket(`ws://localhost:8000/ws/text/${id}`);
+
+        ws.onopen = () => console.log(`Connected to chat ${id}`);
+        ws.onerror = (e) => {
+            toast.error("Connection error");
+            setWaiting(false);
+        };
+        ws.onclose = () => console.log("Socket closed");
+
+        ws.onmessage = (e) => {
+            console.log(e)
+            if (typeof e.data === "string") {
+                const data = JSON.parse(e.data);
+                if (data.type === "error") {
+                    toast.error(data.message);
+                } else if (data.type === "answer") {
+                    if (data.chat_id !== id) setChatId(data.chat_id);
+                    addNewMessage(data.message);
+                }
+            }
+            setWaiting(false);
+        };
+
+        socket.current = ws;
+    }
+
     const handleSendMessage = ()=> {
         try{
             if(prompt === '') return
+            if(!socket.current) return
+
+            if (socket.current.readyState !== WebSocket.OPEN) {
+                toast.error("Socket is connecting, please wait...");
+                return;
+            }
 
             setPromptSent(prompt)
-
             socket.current.send(prompt)
             setPrompt('')
             setWaiting(true)
@@ -34,37 +71,19 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
     }
 
     useEffect(() => {
-        const websocket = new WebSocket(`ws://localhost:8000/ws/text/${chatId}`)
-        socket.current = websocket
-
-        websocket.onopen = () => console.log("Backend connected")
-        websocket.onclose = () => console.log("Socket closed")
-        websocket.onerror = (e) => {
-            toast.error("Connection error, please try again")
-            console.error("Connection error:", e)
-        }
-
-        websocket.onmessage = async (e) => {
-            console.log(e)
-            if (typeof e.data === "string") {
-
-                const data = JSON.parse(e.data)
-                if(data.type === "error") {
-                    toast.error(data.message)
-
-                }else if(data.type === "answer"){
-                    setChatId(data.chat_id)
-                    addNewMessage(data.message)
-
-                }
-            }
-            setWaiting(false)
+        if (chatId) {
+            console.log("Cambio de socket")
+            handleSocketSwitching(chatId);
         }
 
         return () => {
-            websocket.close()
-        }
-    }, [addNewMessage, setChatId, setWaiting, chatId])
+            if(socket.current){
+                socket.current?.close();
+                socket.current = null
+            }
+        };
+    }, [chatId]);
+
 
     return (
         <div className="w-full items-center z-10 justify-center h-full flex gap-2 py-2 px-5">
