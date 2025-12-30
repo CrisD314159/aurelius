@@ -14,24 +14,41 @@ import ChatCardComponent from "./ChatCardComponent";
 
 interface ChatsDrawerProps{
     setChat: (chat:ChatMessages) => void
-
+    refetchChats:boolean
+    setRefetch: (value:boolean) => void
 }
 
-export default function ChatsDrawer({setChat}:ChatsDrawerProps) {
+export default function ChatsDrawer({setChat, refetchChats, setRefetch}:ChatsDrawerProps) {
     const [open, setOpen] = useState(false);
 
-    const {isPending, error, isSuccess, data} = useQuery({queryKey:['chats'], queryFn: getChats})
+    const {isPending, error, isSuccess, data, refetch} = useQuery({queryKey:['chats'], queryFn: getChats})
+
+    useEffect(()=>{
+        if(refetchChats){
+            refetch()
+            setRefetch(false)
+        }
+
+    }, [refetch])
 
     useEffect(()=>{
         if(error) toast.error(error.message)
-    })
+    }, [])
 
     return (
         <>
-            <button onClick={()=> setOpen(true)}
-                    className={'w-11 h-11 dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}>
+            <motion.button onClick={()=> setOpen(true)}
+                           className={'w-11 h-11 dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}
+                           whileHover={{ scale: 1.03 }}
+                           whileTap={{ scale: 0.94 }}
+                           transition={{
+                               type: "spring",
+                               stiffness: 900,
+                               damping: 40,
+                               mass: 0.4
+                           }}>
                     <ViewSidebarRoundedIcon/>
-            </button>
+            </motion.button>
 
             {open &&
                 <motion.div className='fixed inset-0 w-screen h-screen flex items-center justify-start z-20'

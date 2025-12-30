@@ -149,12 +149,18 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
   }
 
   const handleSocketSwitching = (id:number)=> {
+    if (socket.current &&
+        socket.current.readyState === WebSocket.OPEN &&
+        socket.current.url.includes(`/ws/call/${id}`)) {
+      return;
+    }
+
     if (socket.current) {
       socket.current.onclose = null;
       socket.current.close();
     }
 
-    const ws = new WebSocket(`ws://localhost:8000/ws/text/${id}`);
+    const ws = new WebSocket(`ws://localhost:8000/ws/call/${id}`);
 
     ws.onopen = () => console.log(`Connected to chat ${id}`);
     ws.onerror = (e) => {
@@ -181,8 +187,11 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
           }else  if(data.type === "transcription"){
             setTranscription(data.message)
           }else if(data.type === "answer"){
-            setChatId(data.chat_id)
-            addNewMessage(data.message)
+            if (data.message.chat_id !== id) {
+              setChatId(data.message.chat_id)
+            }else{
+              addNewMessage(data.message);
+            }
           }
 
         }
@@ -213,12 +222,9 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
       handleSocketSwitching(chatId);
     }
 
-    return () => {
-      if(socket.current){
-        socket.current?.close();
-        socket.current = null
-      }
-    };
+    if(chatId === 0){
+      handleSocketSwitching(chatId)
+    }
   }, [chatId]);
 
   return (

@@ -28,13 +28,22 @@ export default function ChatCardComponent({id, title, date_created, setChat}:Cha
     })
 
     const fetchChatMessages = (chat_id:number)=> {
-        console.log("id", chat_id)
         mutate(chat_id)
     }
 
     return (
-        <motion.button className={'w-full h-10 px-3 truncate text-ellipsis rounded-md my-1 bg-[#faefe2]/60 dark:bg-gray-900/60'} onClick={()=> fetchChatMessages(id)} disabled={isPending}>
+        <motion.button
+            whileHover={{ scale: 1.02, borderRadius: '7px' }}
+            whileTap={{ scale: 0.94 }}
+            transition={{
+                type: "spring",
+                stiffness: 900,
+                damping: 40,
+                mass: 0.5
+            }}
+            className={'w-[95%] h-10 px-3 truncate text-ellipsis rounded-md my-1 bg-[#faefe2]/60 dark:bg-neutral-950/50'} onClick={()=> fetchChatMessages(id)} disabled={isPending}>
             <p className='text-sm text-gray-950 dark:text-[#faefe1]'>{title}</p>
+
         </motion.button>
     )
 }

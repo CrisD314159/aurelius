@@ -4,6 +4,7 @@ import LlmMessageContainer from "./LlmMessageContainer";
 import {LinearProgress} from "@mui/joy";
 import LogoImage from '../../assets/images/aurelius_logo_tr.png'
 import {motion} from "framer-motion";
+import {useEffect, useRef} from "react";
 
 interface MessagesContainerProps{
     messages: MessageContent[]
@@ -13,6 +14,11 @@ interface MessagesContainerProps{
 
 export default function MessagesContainer({messages, waiting}: MessagesContainerProps){
 
+    const endRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages, waiting]);
 
     return (
         <div className={'w-full h-full px-4 flex-1 overflow-y-scroll  glass-gradient pb-40 pt-12 '}>
@@ -45,6 +51,7 @@ export default function MessagesContainer({messages, waiting}: MessagesContainer
                 />
 
             }
+            <div ref={endRef} />
         </div>
     )
 }

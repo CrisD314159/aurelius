@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from "react"
 import toast from "react-hot-toast"
 import {MessageContent} from "../../lib/definitions";
 import SendIcon from '@mui/icons-material/Send';
+import {motion} from "framer-motion";
 
 interface ChatInputComponentProps{
     setChatId: (chatId: number) => void
@@ -19,6 +20,12 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
 
 
     const handleSocketSwitching = (id:number)=> {
+        if (socket.current &&
+            socket.current.readyState === WebSocket.OPEN &&
+            socket.current.url.includes(`/ws/text/${id}`)) {
+            return;
+        }
+
         if (socket.current) {
             socket.current.onclose = null;
             socket.current.close();
@@ -34,14 +41,16 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
         ws.onclose = () => console.log("Socket closed");
 
         ws.onmessage = (e) => {
-            console.log(e)
             if (typeof e.data === "string") {
                 const data = JSON.parse(e.data);
                 if (data.type === "error") {
                     toast.error(data.message);
                 } else if (data.type === "answer") {
-                    if (data.chat_id !== id) setChatId(data.chat_id);
-                    addNewMessage(data.message);
+                    if (data.message.chat_id !== id) {
+                        setChatId(data.message.chat_id)
+                    }else{
+                        addNewMessage(data.message);
+                    }
                 }
             }
             setWaiting(false);
@@ -72,16 +81,13 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
 
     useEffect(() => {
         if (chatId) {
-            console.log("Cambio de socket")
+            console.log("Chat Change")
             handleSocketSwitching(chatId);
         }
 
-        return () => {
-            if(socket.current){
-                socket.current?.close();
-                socket.current = null
-            }
-        };
+        if(chatId ===0 ){
+            handleSocketSwitching(chatId);
+        }
     }, [chatId]);
 
 
@@ -90,12 +96,20 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
             <textarea
                 rows={2}
                 value={prompt}
-                className="w-[90%] rounded-3xl border resize-none border-white/20 bg-white/50 dark:bg-gray-900/40 backdrop-blur-md px-4 py-2 text-gray-950 dark:text-[#faefe1] placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-white/30 transition-all"
+                className="w-[90%] rounded-3xl border resize-none border-white/20 bg-white/50 dark:bg-neutral-950/40 backdrop-blur-md px-4 py-2 text-gray-950 dark:text-[#faefe1] placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-white/30 transition-all"
                 placeholder="Message Aurelius"
                 onChange={(e) => setPrompt(e.target.value)}
                 disabled={waiting}
             />
-            <button
+            <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.94 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 900,
+                    damping: 40,
+                    mass: 0.4
+                }}
                 className={`w-12 h-12 flex items-center justify-center rounded-full border border-white/20 backdrop-blur-md transition-all ${
                     prompt === ''
                         ? 'bg-white/5 text-gray-400'
@@ -105,7 +119,7 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
                 onClick={()=> handleSendMessage()}
             >
                 <SendIcon />
-            </button>
+            </motion.button>
         </div>
     )
 }

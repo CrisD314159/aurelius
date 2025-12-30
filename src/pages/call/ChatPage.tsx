@@ -5,11 +5,28 @@ import ChatInputComponent from "../../ui/inputs/ChatInputComponent";
 import MessagesContainer from "../../ui/containers/MessagesContainer";
 import ChatsDrawer from "../../ui/chats/ChatsDrawer";
 import NewChatButton from "../../ui/button/NewChatButton";
+import {useMutation} from "@tanstack/react-query";
+import {getChatMessages} from "../../lib/http/http_queries";
+import toast from "react-hot-toast";
 
 export default function ChatPage() {
     const [messages, setMessages] = useState<MessageContent[]>([]);
     const [chatId, setChatId] = useState(0)
     const [waiting, setWaiting] = useState<boolean>(false)
+    const [refetchChats, setRefetchChats] = useState<boolean>(false)
+
+    const {mutate} = useMutation({
+        mutationKey:['chatMessages'],
+        mutationFn:getChatMessages,
+        onError: ((error)=> {
+            toast.error(error.message)
+            console.error(error)
+        }),
+        onSuccess: ((data)=>{
+            setChatId(data.message.chat_id)
+            setMessages(data.message.messages)
+        })
+    })
 
     const handleSetMessages = (chatMessages: ChatMessages) =>{
         if(chatMessages.chat_id != 0){
@@ -19,7 +36,9 @@ export default function ChatPage() {
     }
 
     const handleSetChatId = useCallback((id:number)=>{
-        setChatId(id)
+        console.log("received id", id)
+        mutate(id)
+        setRefetchChats(true)
     }, [])
 
     const setNewUserPromptSent = useCallback((prompt:string) =>{
@@ -36,7 +55,7 @@ export default function ChatPage() {
     <div className="w-screen h-screen flex flex-col relative items-center">
 
         <div className={'fixed left-3 top-3 flex items-center gap-3 z-10'}>
-            <ChatsDrawer setChat={handleSetMessages}/>
+            <ChatsDrawer setChat={handleSetMessages} refetchChats={refetchChats} setRefetch={setRefetchChats} />
             <NewChatButton resetChats={setMessages} setChatId={setChatId} chatId={chatId}/>
         </div>
 
@@ -46,7 +65,7 @@ export default function ChatPage() {
 
 
         <div className={'absolute bottom-0 w-full pb-5 flex items-center justify-center'}>
-            <div className={'w-[80%] h-full'}>
+            <div className={'w-[85%] h-full'}>
                 <ChatInputComponent setChatId={handleSetChatId}
                                     chatId={chatId}
                                     addNewMessage={addNewMessage}
@@ -55,13 +74,11 @@ export default function ChatPage() {
                                     setWaiting={setWaiting}
                 />
             </div>
-            <div className={'w-[20%] h-full'}>
-
+            <div className={'w-[15%] flex items-center justify-center h-full'}>
                 <WebsocketConnectionPCM setChatId={handleSetChatId}
                                         chatId={chatId}
                                         addNewMessage={addNewMessage}
                                         setTranscription={setNewUserPromptSent}/>
-
 
             </div>
 
