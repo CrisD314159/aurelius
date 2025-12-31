@@ -27,7 +27,7 @@ export default function NewChatButton({resetChats, setChatId, chatId}:NewChatBut
                 damping: 40,
                 mass: 0.4
             }}
-            className={`w-11 h-11 ${chatId === 0 ? 'text-neutral-600 dark:text-gray-500':'dark:text-[#faefe1]'} flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all`}
+            className={`w-11 h-11 ${chatId === 0 ? 'shadow text-neutral-600 dark:text-gray-500':'dark:text-[#faefe1]'} flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all`}
                 onClick={handleNewChat}
                 disabled={chatId === 0}>
             <AddCircleRoundedIcon/>

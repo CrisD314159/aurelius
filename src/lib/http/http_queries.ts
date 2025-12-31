@@ -83,6 +83,22 @@ export async function getChatMessages(id:number): Promise<{success: boolean, mes
   }
 }
 
+export async function deleteChat(id:number): Promise<{success: boolean, message:string}> {
+  const response:Response = await fetch(`${httpAPI}/chats/${id}`, {
+    method: 'DELETE'
+  })
+  if(response.ok){
+    const data = await response.json()
+    return {
+      success: data.success,
+      message: data.message
+    }
+  }else{
+    const error = await response.json()
+    throw new Error(error.message)
+  }
+}
+
 
 
 

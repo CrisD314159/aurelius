@@ -60,7 +60,7 @@ export default function ChangeConfigModalForm({open, setOpen}:ChangeConfigModalF
   }
 
   return (
-  <motion.div initial={{opacity:0}} exit={{opacity:1}}  animate={{opacity:1}} className={`fixed inset-0 z-40 w-screen h-screen flex justify-center items-center`}
+  <motion.div className={`fixed inset-0 z-40 w-screen h-screen flex justify-center items-center`}
         onClick={()=> setOpen(false)}>
       <motion.div 
                 initial={{opacity:0, ascent:0}} 

@@ -51,7 +51,7 @@ export default function ModelSelectionComponent({models, setModel, stepDown, ste
               <h3 className='text-gray-600 dark:text-[#faefe1] mb-8 text-lg'>To install a recommended local model, you can use the command below</h3>
 
               <div className='w-[50%] h-12 bg-slate-900 flex items-center justify-center rounded-md border mb-10'>
-                <p className='font-mono text-[#faefe1] text-lg'>ollama run llama3.1:8b-instruct-q2_K</p>  
+                <p className='font-mono text-[#faefe1] text-lg'>ollama run gemma3:1b</p>
               </div>
 
               <Button size='lg' color='success' variant='solid' onClick={()=> refetch()}>I have a model installed</Button>

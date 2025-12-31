@@ -38,7 +38,7 @@ export default function ChatsDrawer({setChat, refetchChats, setRefetch}:ChatsDra
     return (
         <>
             <motion.button onClick={()=> setOpen(true)}
-                           className={'w-11 h-11 dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}
+                           className={'w-11 h-11 shadow dark:text-[#faefe1] flex items-center justify-center rounded-full border p-5 border-white/20 backdrop-blur-md transition-all'}
                            whileHover={{ scale: 1.03 }}
                            whileTap={{ scale: 0.94 }}
                            transition={{
@@ -72,6 +72,7 @@ export default function ChatsDrawer({setChat, refetchChats, setRefetch}:ChatsDra
                                                          key={chat.chat_id}
                                                          title={chat.title}
                                                          date_created={chat.date_created}
+                                                         refetchChats={refetch}
                                                          setChat={setChat}/> )
                                 :
                                 <p className='text-md text-gray-950 dark:text-[#faefe1]'>No chats to show</p>
