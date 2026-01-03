@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react"
 import toast from "react-hot-toast"
-import {MessageContent} from "../../lib/definitions";
+import {MessageContent, wsAPI} from "../../lib/definitions";
 import SendIcon from '@mui/icons-material/Send';
 import {motion} from "framer-motion";
 
@@ -31,7 +31,7 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
             socket.current.close();
         }
 
-        const ws = new WebSocket(`ws://localhost:8000/ws/text/${id}`);
+        const ws = new WebSocket(`${wsAPI}/ws/text/${id}`);
 
         ws.onopen = () => console.log(`Connected to chat ${id}`);
         ws.onerror = (e) => {

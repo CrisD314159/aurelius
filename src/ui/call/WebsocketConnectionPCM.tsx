@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import GreenRecordingButton from "../button/GreenRecordingButton"
 import toast from "react-hot-toast"
-import {MessageContent} from "../../lib/definitions";
+import {MessageContent, wsAPI} from "../../lib/definitions";
 
 interface WebsocketConnectionPCMProps{
   setChatId: (chatId: number) => void
@@ -160,7 +160,7 @@ export default function WebsocketConnectionPCM({chatId, setChatId, addNewMessage
       socket.current.close();
     }
 
-    const ws = new WebSocket(`ws://localhost:8000/ws/call/${id}`);
+    const ws = new WebSocket(`${wsAPI}/ws/call/${id}`);
 
     ws.onopen = () => console.log(`Connected to chat ${id}`);
     ws.onerror = (e) => {
