@@ -1,4 +1,3 @@
-import WebsocketConnectionPCM from "../../ui/call/WebsocketConnectionPCM";
 import {useCallback, useState} from "react";
 import {ChatMessages, MessageContent} from "../../lib/definitions";
 import ChatInputComponent from "../../ui/inputs/ChatInputComponent";
@@ -65,7 +64,7 @@ export default function ChatPage() {
 
 
         <div className={'absolute bottom-0 w-full pb-5 flex items-center justify-center'}>
-            <div className={'w-[85%] h-full'}>
+            <div className={'w-full h-full'}>
                 <ChatInputComponent setChatId={handleSetChatId}
                                     chatId={chatId}
                                     addNewMessage={addNewMessage}
@@ -73,13 +72,6 @@ export default function ChatPage() {
                                     waiting={waiting}
                                     setWaiting={setWaiting}
                 />
-            </div>
-            <div className={'w-[15%] flex items-center justify-center h-full'}>
-                <WebsocketConnectionPCM setChatId={handleSetChatId}
-                                        chatId={chatId}
-                                        addNewMessage={addNewMessage}
-                                        setTranscription={setNewUserPromptSent}/>
-
             </div>
 
         </div>
