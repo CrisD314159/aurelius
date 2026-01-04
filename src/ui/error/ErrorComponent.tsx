@@ -5,7 +5,7 @@ import { ModelInfo } from "../../lib/definitions";
 interface ErrorComponentProps {
   message?: string;
   title?: string;
-  refetch: (options?: RefetchOptions) => Promise<QueryObserverResult<{
+  refetch?: (options?: RefetchOptions) => Promise<QueryObserverResult<{
     success: boolean;
     message: string | ModelInfo[];
 }, Error>>
@@ -48,12 +48,16 @@ export default function ErrorComponent({
             </p>
           </div>
 
-          <Button
-            onClick={()=> refetch()}
-            color="success"
-          >
-            Try Again
-          </Button>
+          {
+            refetch &&
+            <Button
+              onClick={()=> refetch()}
+              color="success"
+            >
+              Try Again
+            </Button>
+          }
+
 
           
     </div>
