@@ -1,5 +1,5 @@
-export const httpAPI = "http://0.0.0.0:8223"
-export const wsAPI = "ws://0.0.0.0:8223"
+export const httpAPI = "http://localhost:8223"
+export const wsAPI = "ws://localhost:8223"
 
 export interface GeneralResponse {
   success: boolean

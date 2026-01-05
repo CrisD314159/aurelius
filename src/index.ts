@@ -89,7 +89,7 @@ const createWindow = (): void => {
           "script-src 'self' 'unsafe-eval'; " +
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com ; " +
           "font-src 'self' https://fonts.gstatic.com; " +
-          "connect-src 'self' ws://localhost:8000 ws://localhost:3000 ws://0.0.0.0:8223 wss://localhost:8000 http://localhost:3000 http://0.0.0.0:8223 http://localhost:8000 http://0.0.0.0:8223"
+          "connect-src 'self' ws://localhost:8223 http://localhost:8223 wss://localhost:8223"
         ]
       }
     });

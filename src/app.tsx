@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import SetupPage from './pages/setup/SetupPage';
 import '@fontsource/inter';
 import { HashRouter } from 'react-router-dom';
-import ChatPage from "./pages/call/ChatPage";
+import ChatPage from "./pages/chat/ChatPage";
 
 
 const root = document.getElementById('root');

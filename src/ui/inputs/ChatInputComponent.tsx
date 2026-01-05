@@ -3,6 +3,7 @@ import toast from "react-hot-toast"
 import {MessageContent, wsAPI} from "../../lib/definitions";
 import SendIcon from '@mui/icons-material/Send';
 import {motion} from "framer-motion";
+import {useQueryClient} from "@tanstack/react-query";
 
 interface ChatInputComponentProps{
     setChatId: (chatId: number) => void
@@ -17,6 +18,7 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
 
     const [prompt, setPrompt] = useState<string>('')
     const socket = useRef<WebSocket | null>(null)
+    const queryClient = useQueryClient()
 
 
     const handleSocketSwitching = (id:number)=> {
@@ -48,6 +50,7 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
                 } else if (data.type === "answer") {
                     if (data.message.chat_id !== id) {
                         setChatId(data.message.chat_id)
+                        refetchAvailableChats()
                     }else{
                         addNewMessage(data.message);
                     }
@@ -77,6 +80,12 @@ export default function ChatInputComponent({chatId, setChatId, addNewMessage, se
             toast.error("An error occurred while connecting to the LLM")
             console.error(e)
         }
+    }
+
+    const refetchAvailableChats = () =>{
+        queryClient.invalidateQueries({
+            queryKey:['chats']
+        })
     }
 
     useEffect(() => {

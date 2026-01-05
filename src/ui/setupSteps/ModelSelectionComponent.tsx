@@ -4,7 +4,7 @@ import { Button, IconButton } from '@mui/joy';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
-import ChooseModelButton from '../button/ChooseModelButton';
+import ChooseModelButton from '../buttons/ChooseModelButton';
 
 interface ModelSelectionComponent{
   stepUp: () => void

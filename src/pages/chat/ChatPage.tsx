@@ -2,8 +2,8 @@ import {useCallback, useState} from "react";
 import {ChatMessages, MessageContent} from "../../lib/definitions";
 import ChatInputComponent from "../../ui/inputs/ChatInputComponent";
 import MessagesContainer from "../../ui/containers/MessagesContainer";
-import ChatsDrawer from "../../ui/chats/ChatsDrawer";
-import NewChatButton from "../../ui/button/NewChatButton";
+import ChatsDrawer from "../../ui/drawers/ChatsDrawer";
+import NewChatButton from "../../ui/buttons/NewChatButton";
 import {useMutation} from "@tanstack/react-query";
 import {getChatMessages} from "../../lib/http/http_queries";
 import toast from "react-hot-toast";
@@ -35,7 +35,6 @@ export default function ChatPage() {
     }
 
     const handleSetChatId = useCallback((id:number)=>{
-        console.log("received id", id)
         mutate(id)
         setRefetchChats(true)
     }, [])
@@ -54,7 +53,7 @@ export default function ChatPage() {
     <div className="w-screen h-screen flex flex-col relative items-center">
 
         <div className={'fixed left-3 top-3 flex items-center gap-3 z-10'}>
-            <ChatsDrawer setChat={handleSetMessages} refetchChats={refetchChats} setRefetch={setRefetchChats} />
+            <ChatsDrawer setChat={handleSetMessages} />
             <NewChatButton resetChats={setMessages} setChatId={setChatId} chatId={chatId}/>
         </div>
 
