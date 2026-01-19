@@ -5,7 +5,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getUserConfig, updateUser } from '../../lib/http/http_queries';
 import toast from 'react-hot-toast';
 import { Button, FormControl, IconButton, Input } from '@mui/joy';
-import ChooseModelButton from '../button/ChooseModelButton';
+import ChooseModelButton from '../buttons/ChooseModelButton';
 import { RegisterUserInterface } from '../../lib/definitions';
 import LoadingComponent from '../loading/LoadingComponent';
 

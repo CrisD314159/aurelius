@@ -3,7 +3,7 @@ import {ChatContent, ChatMessages} from "../../lib/definitions";
 import {QueryObserverResult, RefetchOptions, useMutation} from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import {getChatMessages} from "../../lib/http/http_queries";
-import DeleteChatButton from "../button/DeleteChatButton";
+import DeleteChatButton from "../buttons/DeleteChatButton";
 
 interface ChatCardComponent{
     id:number

@@ -7,29 +7,19 @@ import {useQuery} from "@tanstack/react-query";
 import {getChats} from "../../lib/http/http_queries";
 import toast from "react-hot-toast";
 import LoadingComponent from "../loading/LoadingComponent";
-import ChatCardComponent from "./ChatCardComponent";
+import ChatCardComponent from "../cards/ChatCardComponent";
 
 
 
 
 interface ChatsDrawerProps{
     setChat: (chat:ChatMessages) => void
-    refetchChats:boolean
-    setRefetch: (value:boolean) => void
 }
 
-export default function ChatsDrawer({setChat, refetchChats, setRefetch}:ChatsDrawerProps) {
+export default function ChatsDrawer({setChat}:ChatsDrawerProps) {
     const [open, setOpen] = useState(false);
 
     const {isPending, error, isSuccess, data, refetch} = useQuery({queryKey:['chats'], queryFn: getChats})
-
-    useEffect(()=>{
-        if(refetchChats){
-            refetch()
-            setRefetch(false)
-        }
-
-    }, [refetch])
 
     useEffect(()=>{
         if(error) toast.error(error.message)

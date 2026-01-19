@@ -94,4 +94,7 @@ out/
 #Webstorm folder
 .idea
 
+#backend large files
+backend/**
+
 
